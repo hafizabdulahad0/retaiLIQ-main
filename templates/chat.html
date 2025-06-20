@@ -1,0 +1,165 @@
+{# templates/chat.html #}
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    /* Chat bubble styles */
+    .message {
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      max-width: 75%;
+      clear: both;
+    }
+    .message-user {
+      background-color: #D9EFFF;
+      float: right;
+      text-align: right;
+    }
+    .message-assistant {
+      background-color: #F1F1F1;
+      float: left;
+      text-align: left;
+    }
+    .message-admin {
+      background-color: #FFE0B2;
+      float: left;
+      text-align: left;
+    }
+  </style>
+
+  <div class="container py-4">
+    <h2 class="mb-3">Negotiation Chat: <em>{{ product.name }}</em></h2>
+
+    <!-- List Price / Your Price Display -->
+    <p>
+      <strong>List Price:</strong> ${{ "%.2f"|format(product.price) }}<br>
+      <strong>Your Price:</strong>
+      <span id="your-price">${{ "%.2f"|format(current_price) }}</span>
+    </p>
+
+    <!-- Add to Cart Button -->
+    <button id="cart-btn" class="btn btn-primary mb-3">
+      Add to Cart — ${{ "%.2f"|format(current_price) }}
+    </button>
+
+    <!-- Chat History -->
+    <div id="chat-display"
+         class="border rounded p-3 mb-3"
+         style="height:350px; overflow-y:auto;">
+      {% for m in messages %}
+        {% if m.role == 'user' %}
+          <div class="message message-user">
+            <strong>You:</strong> {{ m.content|replace('\n','<br>')|safe }}
+          </div>
+        {% elif m.role == 'assistant' %}
+          <div class="message message-assistant">
+            <strong>Sales:</strong> {{ m.content|replace('\n','<br>')|safe }}
+          </div>
+        {% elif m.role == 'admin' %}
+          <div class="message message-admin">
+            <strong>Admin:</strong> {{ m.content|replace('\n','<br>')|safe }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- User Input Box -->
+    <div class="input-group mb-4">
+      <input type="text" id="user-input"
+             class="form-control"
+             placeholder="Type your message…">
+      <button id="send-btn" class="btn btn-success">Send</button>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    const sessionId     = {{ chat_session.id }};
+    const chatDisplay   = document.getElementById('chat-display');
+    const userInput     = document.getElementById('user-input');
+    const sendBtn       = document.getElementById('send-btn');
+    const yourPriceSpan = document.getElementById('your-price');
+    const cartBtn       = document.getElementById('cart-btn');
+
+    let displayedCount = {{ messages|length }};
+    let currentPrice   = parseFloat("{{ "%.2f"|format(current_price) }}");
+
+    function scrollToBottom() {
+      chatDisplay.scrollTop = chatDisplay.scrollHeight;
+    }
+
+    async function pollMessages() {
+      try {
+        const res = await fetch(`/chat/${ sessionId }/messages`);
+        if (!res.ok) throw new Error('Network error');
+        const data = await res.json();
+
+        const allMsgs = data.messages || [];
+        const newPrice = parseFloat(data.price);
+
+        if (allMsgs.length > displayedCount) {
+          allMsgs.slice(displayedCount).forEach(m => {
+            const div = document.createElement('div');
+            if (m.role === 'user') {
+              div.className = 'message message-user';
+              div.innerHTML = `<strong>You:</strong> ${m.content.replace(/\n/g,'<br>')}`;
+            }
+            else if (m.role === 'assistant') {
+              div.className = 'message message-assistant';
+              div.innerHTML = `<strong>Sales:</strong> ${m.content.replace(/\n/g,'<br>')}`;
+            }
+            else if (m.role === 'admin') {
+              div.className = 'message message-admin';
+              div.innerHTML = `<strong>Admin:</strong> ${m.content.replace(/\n/g,'<br>')}`;
+            }
+            chatDisplay.appendChild(div);
+          });
+          displayedCount = allMsgs.length;
+          scrollToBottom();
+        }
+
+        if (!isNaN(newPrice) && newPrice !== currentPrice) {
+          currentPrice = newPrice;
+          yourPriceSpan.textContent = `$${currentPrice.toFixed(2)}`;
+          cartBtn.textContent     = `Add to Cart — $${currentPrice.toFixed(2)}`;
+        }
+      } catch (err) {
+        console.warn('Polling error:', err);
+      }
+    }
+
+    // Start polling every 2s
+    setInterval(pollMessages, 2000);
+
+    sendBtn.addEventListener('click', async () => {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      sendBtn.disabled = true;
+      try {
+        await fetch(`/chat/${ sessionId }/send`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        userInput.value = '';
+        await pollMessages();
+      } catch (err) {
+        console.warn('Send error:', err);
+      } finally {
+        sendBtn.disabled = false;
+      }
+    });
+
+    userInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    scrollToBottom();
+  })();
+  </script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Admin Dashboard</h1>
+<p><strong>Total Products:</strong> {{total_products}}  &nbsp;
+   <strong>Active Chats:</strong> {{ongoing_chats}}</p>
+<hr>
+<h4>Per-Product Stats</h4>
+<table class="table table-bordered w-auto">
+  <thead><tr><th>Product</th><th>Total</th><th>Active</th></tr></thead>
+  <tbody>
+    {% for p,t,a in product_stats %}
+      <tr><td>{{p.name}}</td><td>{{t}}</td><td>{{a}}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<hr>
+<h4>Ongoing Sessions</h4>
+<ul class="list-group">
+  {% for s in active_sessions %}
+    <li class="list-group-item d-flex justify-content-between">
+      Chat #{{s.id}}: <strong>{{s.user.username}}</strong> ↔ <em>{{s.product.name}}</em>
+      <a href="{{url_for('admin.terminate_chat',session_id=s.id)}}" class="btn btn-danger btn-sm">Terminate</a>
+    </li>
+  {% else %}
+    <li class="list-group-item">No active chats.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

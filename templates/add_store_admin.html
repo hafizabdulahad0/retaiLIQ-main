@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Add New Store-Admin for {{ store.name }}</h2>
+  <form method="POST" class="w-50">
+    <div class="mb-3"><label class="form-label">Username</label>
+      <input name="username" class="form-control" required></div>
+    <div class="mb-3"><label class="form-label">Password</label>
+      <input name="password" type="password" class="form-control" required></div>
+    <button class="btn btn-primary">Add Admin</button>
+    <a href="{{ url_for('store.dashboard') }}" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+{% endblock %}

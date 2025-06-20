@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Sign Up — retaiLIQ</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <h2 class="login-title">Admin Sign Up</h2>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input name="username" type="text" class="form-control" required autofocus>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input name="password" type="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-admin w-100 mb-3">Create Admin</button>
+    </form>
+    <a href="{{ url_for('auth.admin_login') }}" class="text-muted d-block text-center">
+      ← Back to Admin Login
+    </a>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

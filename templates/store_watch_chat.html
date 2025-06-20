@@ -1,0 +1,107 @@
+{# templates/store/chat_admin.html #}
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    /* Reuse same bubble styles as the customer chat */
+    .message {
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      max-width: 75%;
+      clear: both;
+    }
+    .message-user {
+      background-color: #D9EFFF;
+      float: right;
+      text-align: right;
+    }
+    .message-assistant {
+      background-color: #F1F1F1;
+      float: left;
+      text-align: left;
+    }
+    .message-admin {
+      background-color: #FFE0B2;
+      float: left;
+      text-align: left;
+    }
+    .chat-box {
+      height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+
+  <div class="chat-view">
+    <h2 class="mb-4">
+      Chat #{{ chat_session.id }}: 
+      <strong>{{ chat_session.user.username }}</strong> ↔ 
+      <em>{{ chat_session.product.name }}</em>
+    </h2>
+
+    <!-- Chat History -->
+    <div id="chat-box" class="chat-box border rounded p-3 mb-4">
+      {% for m in messages %}
+        {% if m.role == 'user' %}
+          <div class="message message-user">
+            <strong>You:</strong> {{ m.content|replace('\n','<br>')|safe }}
+          </div>
+        {% elif m.role == 'assistant' %}
+          <div class="message message-assistant">
+            <strong>Sales:</strong> {{ m.content|replace('\n','<br>')|safe }}
+          </div>
+        {% elif m.role == 'admin' %}
+          <div class="message message-admin">
+            <strong>Admin:</strong> {{ m.content|replace('\n','<br>')|safe }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Section 1: Send freeform admin note -->
+    <form method="POST"
+          action="{{ url_for('store.send_admin_message', session_id=chat_session.id) }}"
+          class="mb-4">
+      <div class="mb-3">
+        <label class="form-label">Message to Customer</label>
+        <textarea name="message"
+                  class="form-control"
+                  rows="2"
+                  placeholder="Type a note or answer here..."
+                  required></textarea>
+      </div>
+      <button class="btn btn-success">Send as Admin</button>
+    </form>
+
+    <!-- Section 2: Override Price input -->
+    <form method="POST"
+          action="{{ url_for('store.override_price', session_id=chat_session.id) }}">
+      <div class="mb-3">
+        <label class="form-label">Override Price (USD)</label>
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input type="number"
+                 step="0.01"
+                 name="override_price"
+                 class="form-control"
+                 placeholder="e.g. 25.00"
+                 required>
+        </div>
+        <div class="form-text">
+          Enter a new price here; this will immediately overwrite the customer’s “Your Price” and
+          “Add to Cart” button (bypassing the usual floor clamp).
+        </div>
+      </div>
+      <button class="btn btn-warning">Override Price</button>
+      <a href="{{ url_for('store.dashboard') }}" class="btn btn-link ms-2">
+        ← Back to Dashboard
+      </a>
+    </form>
+  </div>
+
+  <script>
+    // Keep the chat scrolled to bottom
+    const box = document.getElementById('chat-box');
+    if (box) box.scrollTop = box.scrollHeight;
+  </script>
+{% endblock %}

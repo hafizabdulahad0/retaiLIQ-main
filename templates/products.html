@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Products</h2>
+<div class="row">
+  {% for p in products %}
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5>{{ p.name }}</h5>
+          <p><strong>Price:</strong> ${{"%.2f"|format(p.price)}}
+          <br><em>{{ p.description }}</em></p>
+          <a href="{{ url_for('chat.chat_page', product_id=p.id) }}"
+             class="btn btn-primary">Negotiate</a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

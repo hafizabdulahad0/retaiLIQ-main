@@ -1,0 +1,504 @@
+/* Import a modern system font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+:root {
+  --primary: #4f46e5;        /* Indigo */
+  --primary-light: #818cf8;  /* Lighter Indigo */
+  --bg-light: #f9fafb;       /* Very light gray */
+  --bg-dark: #111827;        /* Almost black */
+  --text-dark: #1f2937;      /* Dark gray */
+  --text-light: #4b5563;     /* Mid gray */
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 1rem;
+  --spacing: 1rem;
+  --font-sans: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: linear-gradient(
+      135deg,
+      rgba(79, 70, 229, 0.9),
+      rgba(249, 115, 22, 0.9)
+    );
+  color: var(--text-dark);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+
+.navbar {
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  padding: var(--spacing) 2rem;
+}
+
+.navbar-brand, .nav-link {
+  font-weight: 600;
+  color: #fff !important;
+}
+
+.nav-link:hover {
+  color: var(--bg-light) !important;
+}
+
+/* Container tweaks */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--spacing);
+}
+
+/* Cards (used in products) */
+.card {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 8px var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px var(--shadow);
+}
+
+/* Chat display area */
+#chat-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: var(--spacing);
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+/* Chat bubbles */
+#chat-display p {
+  max-width: 75%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+}
+
+#chat-display p.text-end {
+  align-self: flex-end;
+  background: var(--primary-light);
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+
+#chat-display p:not(.text-end):not(.text-center) {
+  align-self: flex-start;
+  background: #fff;
+  color: var(--text-dark);
+  border-bottom-left-radius: 0;
+}
+
+#chat-display p.text-center {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* Input group */
+.input-group {
+  box-shadow: 0 2px 4px var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.input-group .form-control {
+  border: none;
+  padding: var(--spacing);
+}
+
+.input-group .btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: var(--spacing) 2rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.input-group .btn:hover {
+  background: var(--primary-light);
+}
+
+/* Tables (Cart & Dashboard) */
+.table {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+.table thead {
+  background: var(--primary);
+  color: #fff;
+}
+
+.table tbody tr:hover {
+  background: #f3f4f6;
+}
+
+/* Forms */
+form input, form textarea, form button {
+  border-radius: var(--radius);
+}
+
+form input, form textarea {
+  border: 1px solid #e5e7eb;
+  padding: var(--spacing);
+}
+
+form button {
+  padding: var(--spacing) 2rem;
+  transition: background 0.2s ease;
+}
+
+/* Alerts */
+.alert {
+  border-radius: var(--radius);
+}
+
+/* Footer spacing */
+footer {
+  text-align: center;
+  padding: var(--spacing);
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+/* ----- Shared Login/Card Styles ----- */
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--bg-light);
+  }
+  
+  .login-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+  }
+  
+  .login-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    color: var(--text-dark);
+  }
+  
+  /* Admin primary button */
+  .btn-admin {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  
+  .btn-admin:hover {
+    background: #c82333;
+  }
+  
+  /* Admin outline button */
+  .btn-outline-admin {
+    background: transparent;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+    padding: 0.75rem;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  .btn-outline-admin:hover {
+    background: #dc3545;
+    color: #fff;
+  }
+  
+/* ---------------------------
+   Landing Page Styles
+   --------------------------- */
+   .landing-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(
+      135deg,
+      rgba(79, 70, 229, 0.9),
+      rgba(249, 115, 22, 0.9)
+    ),
+    url('https://source.unsplash.com/1600x900/?shopping,ecommerce') no-repeat center / cover;
+    font-family: var(--font-sans);
+  }
+  
+  .landing-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem 3rem;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+  }
+  
+  .landing-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+  }
+  
+  .highlight {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .btn-landing {
+    display: inline-block;
+    width: 100%;
+    margin: 0.75rem auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .btn-landing:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn-customer {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-customer:hover {
+    background: var(--primary-light);
+  }
+  
+  .btn-admin {
+    background: #d97706;
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-admin:hover {
+    background: #f59e0b;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 576px) {
+    .landing-card {
+      padding: 1.5rem 1.5rem;
+    }
+    .landing-title {
+      font-size: 1.75rem;
+    }
+    .btn-landing {
+      font-size: 1rem;
+    }
+  }
+  /* ========================================
+   STORE-OWNER LOGIN & SIGNUP PAGES
+   ======================================== */
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg-light);
+  padding: var(--spacing);
+}
+
+.login-card {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.login-card:hover {
+  transform: translateY(-4px);
+}
+
+.login-title {
+  font-size: 1.75rem;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
+/* Form labels & inputs */
+.login-card .form-label {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.login-card .form-control {
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Primary and outline buttons */
+.btn-admin, .btn-customer {
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-admin {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+.btn-admin:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+.btn-outline-admin {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline-admin:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-customer {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+.btn-customer:hover {
+  background: var(--primary-light);
+}
+
+/* ========================================
+   STORE DASHBOARD
+   ======================================== */
+.store-dashboard {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: var(--spacing);
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.store-dashboard h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+.store-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.store-stats .stat-card {
+  flex: 1 1 200px;
+  background: var(--bg-light);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: center;
+}
+.store-stats .stat-card h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--primary);
+}
+.store-stats .stat-card p {
+  margin: 0.5rem 0 0;
+  color: var(--text-light);
+}
+
+/* Store admins list */
+.store-admins {
+  margin-bottom: 2rem;
+}
+.store-admins h4 {
+  margin-bottom: 0.75rem;
+  color: var(--text-dark);
+}
+.store-admins ul {
+  list-style: none;
+  padding: 0;
+}
+.store-admins li {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Quick links */
+.store-dashboard .btn {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   ADD STORE-ADMIN FORM
+   ======================================== */
+.add-admin-form {
+  max-width: 480px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: var(--spacing);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.add-admin-form h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: var(--text-dark);
+}
+
+.add-admin-form .form-label {
+  font-weight: 600;
+}
+.add-admin-form .form-control {
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+}
+
+.add-admin-form button {
+  width: 100%;
+  padding: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+}

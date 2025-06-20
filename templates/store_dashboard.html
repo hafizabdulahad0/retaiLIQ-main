@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 mb-5">
+
+  <h1 class="mb-4">Store Dashboard: {{ store.name }}</h1>
+
+  <!-- Add / Admin Buttons -->
+  <div class="d-flex mb-4 gap-2">
+    <a href="{{ url_for('product.add_product', store_id=store.id) }}" class="btn btn-primary">+ Add Product</a>
+    <a href="{{ url_for('store.add_admin') }}" class="btn btn-secondary">+ Add Admin</a>
+  </div>
+
+  <!-- Products Table -->
+  <h4>Products</h4>
+  <table class="table table-striped mb-4">
+    <thead class="table-primary">
+      <tr><th>Name</th><th>Price</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for p in store.products %}
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>${{"%.2f"|format(p.price)}}</td>
+          <td>
+            <a href="{{ url_for('product.edit_product', store_id=store.id, product_id=p.id) }}"
+               class="btn btn-sm btn-outline-primary">Edit</a>
+            <form method="POST" action="{{ url_for('product.delete_product', store_id=store.id, product_id=p.id) }}"
+                  style="display:inline" onsubmit="return confirm('Delete this product?');">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="3">No products yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Ongoing AI Sessions -->
+<h4>Ongoing AI Sessions</h4>
+<ul class="list-group mb-3">
+  {% for s in ai_sessions %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      Chat #{{ s.id }}: <strong>{{ s.user.username }}</strong> ↔ <em>{{ s.product.name }}</em>
+      {% if s.current_price < s.product.price %}
+        <small class="text-success">Offer: ${{ "%.2f"|format(s.current_price) }}</small>
+      {% endif %}
+      <span>
+        <a href="{{ url_for('store.watch_chat', session_id=s.id) }}" class="btn btn-sm btn-info">Watch</a>
+        <a href="{{ url_for('store.terminate_session', session_id=s.id) }}" 
+           class="btn btn-sm btn-outline-danger"
+           onclick="return confirm('End this chat session?');">Terminate</a>
+      </span>
+    </li>
+  {% endfor %}
+  {% if ai_sessions|length == 0 %}
+    <li class="list-group-item">No active AI sessions.</li>
+  {% endif %}
+</ul>
+
+<!-- Ongoing Human Sessions -->
+<h4>Ongoing Human Sessions</h4>
+<ul class="list-group mb-3">
+  {% for s in human_sessions %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      Chat #{{ s.id }}: <strong>{{ s.user.username }}</strong> ↔ <em>{{ s.product.name }}</em>
+      {% if s.current_price < s.product.price %}
+        <small class="text-success">Offer: ${{ "%.2f"|format(s.current_price) }}</small>
+      {% endif %}
+      <span>
+        <a href="{{ url_for('store.watch_chat', session_id=s.id) }}" class="btn btn-sm btn-info">Open Chat</a>
+        <a href="{{ url_for('store.terminate_session', session_id=s.id) }}" 
+           class="btn btn-sm btn-outline-danger"
+           onclick="return confirm('End this chat session?');">Terminate</a>
+      </span>
+    </li>
+  {% endfor %}
+  {% if human_sessions|length == 0 %}
+    <li class="list-group-item">No active human-handled sessions.</li>
+  {% endif %}
+</ul>
+
+<!-- Ended Chats -->
+<h4>Ended Chats</h4>
+<ul class="list-group mb-4">
+  {% for s in ended_sessions %}
+    <li class="list-group-item">
+      Chat #{{ s.id }}: <strong>{{ s.user.username }}</strong> ↔ <em>{{ s.product.name }}</em>
+      {% if s.current_price < s.product.price %}
+        <small>(Final Price: ${{ "%.2f"|format(s.current_price) }})</small>
+      {% endif %}
+      <a href="{{ url_for('store.watch_chat', session_id=s.id) }}" class="btn btn-sm btn-secondary">View</a>
+    </li>
+  {% endfor %}
+  {% if ended_sessions|length == 0 %}
+    <li class="list-group-item">No ended chats.</li>
+  {% endif %}
+</ul>
+
+
+  <!-- Recent Orders -->
+  <h4>Recent Orders</h4>
+  <table class="table mb-0">
+    <thead class="table-primary">
+      <tr><th>ID</th><th>User</th><th>Total</th><th>When</th></tr>
+    </thead>
+    <tbody>
+      {% for o in recent_orders %}
+        <tr>
+          <td>{{ o.id }}</td>
+          <td>{{ o.user.username }}</td>
+          <td>${{"%.2f"|format(o.total_amount)}}</td>
+          <td>{{ o.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4">No recent orders.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}

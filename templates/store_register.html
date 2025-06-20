@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Store Sign Up — retaiLIQ</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <h2 class="login-title">Create Your Store</h2>
+    <form method="POST">
+      <div class="mb-3"><label class="form-label">Store Name</label>
+        <input name="store_name" type="text" class="form-control" required></div>
+      <div class="mb-3"><label class="form-label">Admin Username</label>
+        <input name="username" type="text" class="form-control" required></div>
+      <div class="mb-3"><label class="form-label">Password</label>
+        <input name="password" type="password" class="form-control" required></div>
+      <button class="btn btn-admin w-100 mb-2">Create Store</button>
+    </form>
+    <a href="{{ url_for('auth.store_login') }}" class="text-muted d-block text-center">
+      ← Back to Store Login
+    </a>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

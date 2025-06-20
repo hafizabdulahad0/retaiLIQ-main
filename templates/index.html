@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to retaiLIQ</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+</head>
+<body class="landing-page">
+  <div class="landing-card">
+    <h1 class="landing-title">Welcome to <span class="highlight">retaiLIQ</span></h1>
+    <a href="{{ url_for('auth.login') }}" class="btn btn-landing btn-customer">
+      Customer<br/>Login / Signup
+    </a>
+    <a href="{{ url_for('auth.store_login') }}" class="btn btn-landing btn-admin">
+      Store<br/>Login / Signup
+    </a>
+  </div>
+</body>
+</html>

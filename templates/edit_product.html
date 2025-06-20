@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Edit {{ product.name }}</h2>
+<form method="POST">
+  <div class="mb-3"><label class="form-label">Name</label><input name="name" class="form-control" value="{{ product.name }}" required></div>
+  <div class="mb-3"><label class="form-label">Price</label><input name="price" type="number" step="0.01" class="form-control" value="{{ product.price }}" required></div>
+  <div class="mb-3"><label class="form-label">Max Discount</label><input name="max_discount" type="number" step="0.01" class="form-control" value="{{ product.max_discount }}" required></div>
+  <div class="mb-3"><label class="form-label">Description</label><textarea name="description" class="form-control">{{ product.description }}</textarea></div>
+  <div class="mb-3"><label class="form-label">Justification</label><textarea name="justification" class="form-control">{{ product.justification }}</textarea></div>
+  <div class="mb-3"><label class="form-label">Other Discounts</label><textarea name="other_discounts" class="form-control">{{ product.other_discounts }}</textarea></div>
+  <button class="btn btn-primary">Save Changes</button>
+  <a href="{{ url_for('store.dashboard') }}" class="btn btn-link ms-2">Cancel</a>
+</form>
+{% endblock %}
